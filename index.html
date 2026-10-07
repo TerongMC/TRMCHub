@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TRMC Hub</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #08090d;
+      color: white;
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    /* NAVBAR */
+
+    .navbar {
+      height: 64px;
+      padding: 0 20px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      background: #0d0e14;
+      border-bottom: 1px solid #242631;
+
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: 900;
+    }
+
+    .logo span {
+      color: #9b5cff;
+    }
+
+    .nav-button {
+      border: none;
+      border-radius: 12px;
+
+      padding: 10px 15px;
+
+      background: #9b5cff;
+      color: white;
+
+      font-weight: bold;
+    }
+
+    .nav-button:active {
+      transform: scale(.96);
+    }
+
+    /* HERO */
+
+    .hero {
+      padding: 60px 20px 45px;
+      text-align: center;
+
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          #3a1760 0%,
+          #151522 38%,
+          #08090d 75%
+        );
+    }
+
+    .badge {
+      display: inline-block;
+
+      padding: 7px 13px;
+      margin-bottom: 18px;
+
+      border: 1px solid #7440a8;
+      border-radius: 999px;
+
+      background: #21132f;
+      color: #cda8ff;
+
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 10vw, 70px);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      color: #9b5cff;
+    }
+
+    .hero p {
+      max-width: 620px;
+      margin: auto;
+
+      color: #a8abb8;
+      line-height: 1.6;
+    }
+
+    /* SEARCH */
+
+    .search-area {
+      max-width: 700px;
+      margin: 28px auto 0;
+
+      display: flex;
+      gap: 10px;
+    }
+
+    .search {
+      flex: 1;
+
+      padding: 15px 17px;
+
+      border: 1px solid #30333e;
+      border-radius: 14px;
+
+      outline: none;
+
+      background: #11131a;
+      color: white;
+    }
+
+    .search:focus {
+      border-color: #9b5cff;
+    }
+
+    .search-button {
+      width: 54px;
+
+      border: none;
+      border-radius: 14px;
+
+      background: #9b5cff;
+      color: white;
+
+      font-size: 20px;
+    }
+
+    /* CONTENT */
+
+    .content {
+      max-width: 1100px;
+      margin: auto;
+
+      padding: 30px 20px 60px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 18px;
+    }
+
+    .section-title h2 {
+      font-size: 22px;
+    }
+
+    .section-title span {
+      color: #888c99;
+      font-size: 13px;
+    }
+
+    /* PROJECT GRID */
+
+    .grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(240px, 1fr));
+
+      gap: 18px;
+    }
+
+    .empty-project {
+      min-height: 220px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      border: 1px dashed #30333e;
+      border-radius: 18px;
+
+      background: #0d0f15;
+    }
+
+    .empty-project.hidden {
+      display: none;
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .empty-content p {
+      color: #777b88;
+      font-size: 13px;
+    }
+
+    /* CARD */
+
+    .card {
+      overflow: hidden;
+
+      background: #11131a;
+
+      border: 1px solid #252833;
+      border-radius: 18px;
+    }
+
+    .thumbnail {
+      width: 100%;
+      height: 150px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #321653,
+          #11131a
+        );
+
+      overflow: hidden;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .default-icon {
+      font-size: 48px;
+    }
+
+    .card-body {
+      padding: 17px;
+    }
+
+    .tag {
+      display: inline-block;
+
+      padding: 5px 8px;
+
+      border-radius: 7px;
+
+      background: #211b2d;
+      color: #bd91ff;
+
+      font-size: 11px;
+
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #9296a3;
+      font-size: 13px;
+      line-height: 1.5;
+
+      margin-bottom: 15px;
+    }
+
+    .download {
+      width: 100%;
+
+      padding: 11px;
+
+      border: none;
+      border-radius: 11px;
+
+      background: #9b5cff;
+      color: white;
+
+      font-weight: bold;
+    }
+
+    .delete {
+      width: 100%;
+
+      padding: 9px;
+      margin-top: 8px;
+
+      border: 1px solid #4a2930;
+      border-radius: 10px;
+
+      background: #1b1013;
+      color: #ff8796;
+
+      font-size: 12px;
+    }
+
+    /* MODAL */
+
+    .modal {
+      position: fixed;
+
+      inset: 0;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      background: rgba(0,0,0,.75);
+
+      z-index: 999;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 500px;
+
+      max-height: 90vh;
+      overflow-y: auto;
+
+      padding: 22px;
+
+      background: #11131a;
+
+      border: 1px solid #30333e;
+      border-radius: 20px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+      font-size: 21px;
+    }
+
+    .close {
+      width: 35px;
+      height: 35px;
+
+      border: none;
+      border-radius: 10px;
+
+      background: #242631;
+      color: white;
+
+      font-size: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: #b8bbc5;
+
+      font-size: 13px;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+
+      padding: 12px;
+
+      border: 1px solid #30333e;
+      border-radius: 11px;
+
+      outline: none;
+
+      background: #0b0d12;
+      color: white;
+    }
+
+    .form-textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      border-color: #9b5cff;
+    }
+
+    .file-box {
+      padding: 15px;
+
+      border: 1px dashed #484c59;
+      border-radius: 12px;
+
+      background: #0b0d12;
+    }
+
+    .file-box input {
+      width: 100%;
+      color: #aaa;
+    }
+
+    .upload-submit {
+      width: 100%;
+
+      padding: 13px;
+
+      border: none;
+      border-radius: 12px;
+
+      background: #9b5cff;
+      color: white;
+
+      font-weight: bold;
+    }
+
+    .notice {
+      margin-top: 10px;
+
+      color: #777b88;
+
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 25px 20px;
+
+      border-top: 1px solid #20222c;
+
+      text-align: center;
+
+      color: #666a76;
+
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
+
+      .navbar {
+        padding: 0 14px;
+      }
+
+      .hero {
+        padding-top: 45px;
+      }
+
+      .content {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar">
+
+    <div class="logo">
+      TRMC <span>Hub</span>
+    </div>
+
+    <button
+      class="nav-button"
+      onclick="openUpload()">
+
+      + Upload
+
+    </button>
+
+  </nav>
+
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="badge">
+      MINECRAFT PROJECT COMMUNITY
+    </div>
+
+    <h1>
+      Explore <span>TRMC Hub</span>
+    </h1>
+
+    <p>
+      Tempat untuk menemukan addon,
+      resource pack, tools, texture,
+      dan project Minecraft buatan komunitas.
+    </p>
+
+    <div class="search-area">
+
+      <input
+        id="search"
+        class="search"
+        type="text"
+        placeholder="Cari project..."
+        oninput="searchProject()"
+      >
+
+      <button
+        class="search-button"
+        onclick="searchProject()">
+
+        🔍
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROJECT -->
+
+  <main class="content">
+
+    <div class="section-title">
+
+      <h2>
+        Project Terbaru
+      </h2>
+
+      <span id="projectCount">
+        0 Project
+      </span>
+
+    </div>
+
+
+    <div
+      id="emptyProject"
+      class="empty-project">
+
+      <div>
+
+        <div class="empty-icon">
+          📦
+        </div>
+
+        <h3>
+          Belum ada project
+        </h3>
+
+        <p>
+          Upload project pertama kamu.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="projectGrid"
+      class="grid">
+    </div>
+
+  </main>
+
+
+  <!-- UPLOAD MODAL -->
+
+  <div
+    id="uploadModal"
+    class="modal">
+
+    <div class="modal-box">
+
+      <div class="modal-header">
+
+        <h2>
+          Upload Project
+        </h2>
+
+        <button
+          class="close"
+          onclick="closeUpload()">
+
+          ×
+
+        </button>
+
+      </div>
+
+
+      <form
+        id="uploadForm"
+        onsubmit="saveProject(event)">
+
+
+        <div class="form-group">
+
+          <label>
+            Nama Project
+          </label>
+
+          <input
+            id="projectName"
+            class="form-input"
+            type="text"
+            placeholder="Contoh: TRMC Tools"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Kategori
+          </label>
+
+          <select
+            id="projectCategory"
+            class="form-select"
+            required>
+
+            <option value="Addon">
+              Addon
+            </option>
+
+            <option value="Resource Pack">
+              Resource Pack
+            </option>
+
+            <option value="Texture">
+              Texture
+            </option>
+
+            <option value="Animation">
+              Animation
+            </option>
+
+            <option value="World">
+              World
+            </option>
+
+            <option value="Tools">
+              Tools
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Deskripsi
+          </label>
+
+          <textarea
+            id="projectDescription"
+            class="form-textarea"
+            placeholder="Jelaskan project kamu..."
+            required></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            File Project
+          </label>
+
+          <div class="file-box">
+
+            <input
+              id="projectFile"
+              type="file"
+              accept=".mcpack,.mcaddon,.mcworld,.zip"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Thumbnail
+          </label>
+
+          <div class="file-box">
+
+            <input
+              id="projectImage"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+            >
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="upload-submit"
+          type="submit">
+
+          Upload Project
+
+        </button>
+
+
+        <div class="notice">
+          Versi ini menyimpan data project di browser.
+          File asli belum diunggah ke server.
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    © 2026 TRMC Hub
+
+  </footer>
+
+
+  <script>
+
+    let projects =
+      JSON.parse(
+        localStorage.getItem("trmc_projects") || "[]"
+      );
+
+
+    function openUpload() {
+
+      document
+        .getElementById("uploadModal")
+        .classList.add("active");
+
+    }
+
+
+    function closeUpload() {
+
+      document
+        .getElementById("uploadModal")
+        .classList.remove("active");
+
+    }
+
+
+    function saveProject(event) {
+
+      event.preventDefault();
+
+
+      const name =
+        document
+          .getElementById("projectName")
+          .value
+          .trim();
+
+
+      const category =
+        document
+          .getElementById("projectCategory")
+          .value;
+
+
+      const description =
+        document
+          .getElementById("projectDescription")
+          .value
+          .trim();
+
+
+      const file =
+        document
+          .getElementById("projectFile")
+          .files[0];
+
+
+      const image =
+        document
+          .getElementById("projectImage")
+          .files[0];
+
+
+      if (!file) {
+
+        alert("Pilih file project terlebih dahulu.");
+
+        return;
+
+      }
+
+
+      const project = {
+
+        id: Date.now(),
+
+        name: name,
+
+        category: category,
+
+        description: description,
+
+        fileName: file.name,
+
+        imageName: image
+          ? image.name
+          : "",
+
+        createdAt:
+          new Date().toLocaleDateString("id-ID")
+
+      };
+
+
+      projects.unshift(project);
+
+
+      localStorage.setItem(
+        "trmc_projects",
+        JSON.stringify(projects)
+      );
+
+
+      document
+        .getElementById("uploadForm")
+        .reset();
+
+
+      closeUpload();
+
+
+      renderProjects();
+
+
+      alert(
+        "Project berhasil ditambahkan!"
+      );
+
+    }
+
+
+    function renderProjects() {
+
+      const grid =
+        document.getElementById("projectGrid");
+
+      const empty =
+        document.getElementById("emptyProject");
+
+      const count =
+        document.getElementById("projectCount");
+
+
+      grid.innerHTML = "";
+
+
+      count.textContent =
+        projects.length + " Project";
+
+
+      if (projects.length === 0) {
+
+        empty.style.display = "flex";
+
+        return;
+
+      }
+
+
+      empty.style.display = "none";
+
+
+      projects.forEach(project => {
+
+        const card =
+          document.createElement("article");
+
+        card.className = "card";
+
+        card.dataset.name =
+          project.name.toLowerCase();
+
+
+        card.innerHTML = `
+
+          <div class="thumbnail">
+
+            <div class="default-icon">
+              📦
+            </div>
+
+          </div>
+
+          <div class="card-body">
+
+            <span class="tag">
+              ${escapeHTML(project.category)}
+            </span>
+
+            <h3>
+              ${escapeHTML(project.name)}
+            </h3>
+
+            <p>
+              ${escapeHTML(project.description)}
+            </p>
+
+            <button
+              class="download"
+              onclick="downloadProject('${project.id}')">
+
+              Download
+
+            </button>
+
+            <button
+              class="delete"
+              onclick="deleteProject('${project.id}')">
+
+              Hapus Project
+
+            </button>
+
+          </div>
+
+        `;
+
+
+        grid.appendChild(card);
+
+      });
+
+    }
+
+
+    function searchProject() {
+
+      const query =
+        document
+          .getElementById("search")
+          .value
+          .toLowerCase()
+          .trim();
+
+
+      const cards =
+        document.querySelectorAll(".card");
+
+
+      let found = 0;
+
+
+      cards.forEach(card => {
+
+        const name =
+          card.dataset.name;
+
+
+        if (name.includes(query)) {
+
+          card.style.display = "";
+
+          found++;
+
+        } else {
+
+          card.style.display = "none";
+
+        }
+
+      });
+
+    }
+
+
+    function deleteProject(id) {
+
+      if (
+        !confirm(
+          "Hapus project ini?"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      projects =
+        projects.filter(
+          project =>
+            String(project.id) !== String(id)
+        );
+
+
+      localStorage.setItem(
+        "trmc_projects",
+        JSON.stringify(projects)
+      );
+
+
+      renderProjects();
+
+    }
+
+
+    function downloadProject(id) {
+
+      const project =
+        projects.find(
+          item =>
+            String(item.id) === String(id)
+        );
+
+
+      if (!project) {
+
+        return;
+
+      }
+
+
+      alert(
+        "File yang dipilih: " +
+        project.fileName +
+        "\n\nVersi server akan memungkinkan file asli di-download."
+      );
+
+    }
+
+
+    function escapeHTML(text) {
+
+      const div =
+        document.createElement("div");
+
+      div.textContent = text;
+
+      return div.innerHTML;
+
+    }
+
+
+    window.onclick =
+      function(event) {
+
+        const modal =
+          document.getElementById(
+            "uploadModal"
+          );
+
+
+        if (event.target === modal) {
+
+          closeUpload();
+
+        }
+
+      };
+
+
+    renderProjects();
+
+  </script>
+
+</body>
+</html>
